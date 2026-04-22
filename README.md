@@ -1,9 +1,10 @@
 # PersoLootRoll
-This addon brings back the Need-Greed loot system and makes it work for Personal Loot. The goal is to make asking for, giving away and trading loot easy and
-straight forward, in PUGs as well as organized guild groups. Everything is designed to be as streamlined and out of your way as possible, so you can focus on
-playing the game instead of manually checking and keeping track of items you and others want.
 
-Get it from [Curse](https://www.curseforge.com/wow/addons/persolootroll) or [WoWInterface](http://www.wowinterface.com/downloads/info24667-PersoLootRoll.html)!
+> **Midnight Compatibility Fork** — This is an unofficial maintenance fork updated to work with **World of Warcraft: Midnight** (Interface 120000+). All credit for the original addon goes to [shrugal](https://gitlab.com/shrugal/PersoLootRoll), the original creator and author. I ([creazy231](https://github.com/creazy231)) only made it compatible with the latest WoW patches — I do not take credit for the core concept or implementation.
+
+This addon brings back the Need-Greed loot system and makes it work with the new loot rules introduced in Midnight. The goal is to make asking for, giving away and trading loot easy and straight forward, in PUGs as well as organized guild groups. Everything is designed to be as streamlined and out of your way as possible, so you can focus on playing the game instead of manually checking and keeping track of items you and others want.
+
+Get the original addon from [Curse](https://www.curseforge.com/wow/addons/persolootroll) or [WoWInterface](http://www.wowinterface.com/downloads/info24667-PersoLootRoll.html).
 
 ## Features
 
@@ -38,7 +39,7 @@ PLR is especially smart when it comes to choosing the right items for you. Many 
 e.g. if it is actually tradable, what ilvl you and your party members have equipped, class restrictions, trinket type, and so on. It will only ask you to
 decide when it actually makes sense, while making sure you don't miss any loot you might be interested in.
 
-### <span style="color: red">Works for PUGs, organized groups and even masterlooting (Dragonflight update TBD)</span>
+### <span style="color: red">Works for PUGs, organized groups and even masterlooting</span>
 It works great for randomly giving away loot in PUGs and organized groups, but it also has a masterloot mode where one person decides who should get which
 item. The masterlooter can also configure things like custom answers and a loot council.
 
@@ -93,14 +94,26 @@ PLR is translated (incl. chat messages) to
  [Curseforge Translation section](https://www.curseforge.com/wow/addons/persolootroll/localization) and also check out
  [this wiki page](https://www.curseforge.com/wow/addons/persolootroll/pages/translation) for some tips.
 
+## Midnight Compatibility Changes
+
+The following fixes were applied to make this addon work with WoW: Midnight (patch 12.0):
+
+- Guard outbound addon messages against Midnight communication lockdown (`C_ChatInfo.InChatMessagingLockdown`)
+- Fix group chat announce: `LE_PARTY_CATEGORY_INSTANCE` global removed in Midnight
+- Register `LEGACY_LOOT_RULES_CHANGED` event to refresh addon state on loot mode changes
+- Replace deprecated `GetRaidRosterInfo` with unit token iteration across all call sites
+- Remove dead Personal-to-NeedBeforeGreed loot conversion (personal loot no longer exists in Midnight raids)
+- Fix M+ dropped item count: `C_ChallengeMode.GetCompletionInfo` removed in Midnight; defaults to 2 items
+- Restore missing embedded libraries (LibUtil, LibRealmInfo, LibDataBroker-1.1)
+- Activate addon for Need Before Greed loot without masterlooter (legacy loot rules in Midnight use NBG by default)
+- Guard `GroupLootContainer_RemoveFrame` SecureHook: function may not exist if legacy loot UI is disabled
+- Guard `C_DelvesUI.HasActiveDelve` against nil in case the Delves API signature changed
+
 ## Development
-This project is fully open-source and the source code can be found on [GitLab](https://gitlab.com/shrugal/PersoLootRoll). To test out new features there are
-also beta versions available. Please report any bugs you find with these versions should you be brave enough to install them, so the stable releases will be
-as bug-free as possible.
+The original project is fully open-source and the source code can be found on [GitLab](https://gitlab.com/shrugal/PersoLootRoll). This Midnight fork is maintained on [GitHub](https://github.com/creazy231/PersoLootRoll).
 
 ### Bugs
-Please create a new entry on the [issue tracker](https://gitlab.com/shrugal/PersoLootRoll/issues) if you encounter any bugs. You can also post little things
-here in the comments. Also, in order to better identify the problem please type in `/plr log` right after the bug happend, and add the result to your issue/post.
+For bugs related to Midnight compatibility, please open an issue on the [GitHub fork](https://github.com/creazy231/PersoLootRoll/issues). For issues with the original addon, use the [original issue tracker](https://gitlab.com/shrugal/PersoLootRoll/issues). Also, in order to better identify the problem please type in `/plr log` right after the bug happened, and add the result to your issue/post.
 
 ### Features
 You can suggest new features and vote on existing suggestions [here](https://persolootroll.featureupvote.com/).
