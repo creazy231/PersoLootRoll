@@ -1,1 +1,10 @@
-- Detect and handle secret event values
+- Guard outbound addon messages against Midnight communication lockdown (C_ChatInfo.InChatMessagingLockdown)
+- Fix group chat announce: LE_PARTY_CATEGORY_INSTANCE global removed in Midnight; GetDestination() was routing messages to INSTANCE_CHAT for all groups, causing silent failures in party/raid chat
+- Register LEGACY_LOOT_RULES_CHANGED event to refresh addon state on loot mode changes
+- Replace deprecated GetRaidRosterInfo with unit token iteration across all call sites
+- Remove dead Personal-to-Needbeforegreed loot conversion (personal loot no longer exists in Midnight raids)
+- Fix M+ dropped item count: C_ChallengeMode.GetCompletionInfo removed in Midnight; always 2 items
+- Restore missing embedded libraries (LibUtil, LibRealmInfo, LibDataBroker-1.1)
+- Activate addon for Need Before Greed loot without masterlooter (legacy loot rules in Midnight use NBG by default)
+- Guard GroupLootContainer_RemoveFrame SecureHook: function may not exist if legacy loot UI is disabled
+- Guard C_DelvesUI.HasActiveDelve against nil in case the Delves API signature changed

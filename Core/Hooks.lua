@@ -223,7 +223,7 @@ function Self.EnableGroupLootRollHook()
     end
 
     --GroupLootContainer:RemoveFrame
-    if not Self:IsHooked("GroupLootContainer_RemoveFrame") then
+    if GroupLootContainer_RemoveFrame and not Self:IsHooked("GroupLootContainer_RemoveFrame") then
         Self:SecureHook("GroupLootContainer_RemoveFrame", function (self, frame)
             -- Find a running roll that hasn't been shown yet
             for i,roll in pairs(Self.rolls) do

@@ -10,6 +10,8 @@ local Comm, GUI, Item, Options, Session, Roll, Trade, Unit, Util = Addon.Comm, A
 ---@class Addon
 local Self = Addon
 
+local PARTY_CATEGORY_INSTANCE = LE_PARTY_CATEGORY_INSTANCE or 2 -- removed in WoW 12.0
+
 -- Logging
 Self.ECHO_NONE = 0
 Self.ECHO_ERROR = 1
@@ -317,17 +319,14 @@ function Self:CheckState(refresh)
             self.state = Self.STATE_DISABLED
         elseif not IsInGroup()                                                                      -- Not in a group
             or Util.IsDelve() or Util.IsHorrificVision()                                            -- Delve/Vision
-            or not (
-                lootMethod == LM.Needbeforegreed and Session.GetMasterlooter()                      -- TODO: Handle NBG with ML like PL for now
-                or Util.In(lootMethod, LM.Freeforall, LM.Roundrobin, LM.Personal, LM.Group)         -- Can't trade items
-            )
+            or not Util.In(lootMethod, LM.Freeforall, LM.Roundrobin, LM.Needbeforegreed, LM.Personal, LM.Group)
         then
             self.state = Self.STATE_ENABLED
         elseif self.db.profile.onlyMasterloot and not Session.GetMasterlooter()                     -- Only Masterloot
             or not (
                 not IsInInstance()                                   and p(group.outdoor)           -- Disabed outdoors
-                or IsInRaid(LE_PARTY_CATEGORY_INSTANCE)              and p(group.lfr)               -- Disabled in LFR
-                or IsInGroup(LE_PARTY_CATEGORY_INSTANCE)             and p(group.lfd)               -- Disabled in LFD
+                or IsInRaid(PARTY_CATEGORY_INSTANCE)              and p(group.lfr)               -- Disabled in LFR
+                or IsInGroup(PARTY_CATEGORY_INSTANCE)             and p(group.lfd)               -- Disabled in LFD
                 or Util.IsGuildGroup(Unit.GuildName("player") or "") and p(group.guild)             -- Disabled in guild groups
                 or Util.IsCommunityGroup()                           and p(group.community)         -- Disabled in community groups
                 or IsInRaid()                                        and p(group.raid)              -- Disabled in raids

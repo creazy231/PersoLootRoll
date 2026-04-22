@@ -8,6 +8,8 @@ local Locale, Session, Roll, Unit, Util = Addon.Locale, Addon.Session, Addon.Rol
 ---@class Comm
 local Self = Addon.Comm
 
+local PARTY_CATEGORY_INSTANCE = LE_PARTY_CATEGORY_INSTANCE or 2 -- removed in WoW 12.0
+
 Self.PREFIX = Addon.ABBR
 Self.PREFIX_CHAT = "[" .. Addon.ABBR .. "] "
 -- Max # of whispers per item for all addons in the group
@@ -69,7 +71,7 @@ function Self.GetDestination(target)
     target = target or Self.TYPE_GROUP
 
     if target == Self.TYPE_GROUP then
-        if IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
+        if IsInGroup(PARTY_CATEGORY_INSTANCE) then
             return Self.TYPE_INSTANCE
         elseif IsInRaid() then
             return Self.TYPE_RAID
@@ -148,10 +150,10 @@ function Self.ShouldInitChat(target, item)
     elseif Util.IsLegacyRun() then
         if not byGroup.legacy then Self.ChatInfo("BID_NO_CHAT_GRP", item, target, LFG_LIST_LEGACY) end
         return byGroup.legacy
-    elseif IsInRaid(LE_PARTY_CATEGORY_INSTANCE) then
+    elseif IsInRaid(PARTY_CATEGORY_INSTANCE) then
         if not byGroup.lfr then Self.ChatInfo("BID_NO_CHAT_GRP", item, target, RAID_FINDER_PVEFRAME) end
         return byGroup.lfr
-    elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
+    elseif IsInGroup(PARTY_CATEGORY_INSTANCE) then
         if not byGroup.lfd then Self.ChatInfo("BID_NO_CHAT_GRP", item, target, LOOKING_FOR_DUNGEON_PVEFRAME) end
         return byGroup.lfd
     elseif Util.IsGuildGroup(Unit.GuildName("player") or "") then

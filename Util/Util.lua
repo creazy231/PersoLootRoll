@@ -124,7 +124,7 @@ end
 
 -- Check if currently in a delve
 function Self.IsDelve()
-    return C_DelvesUI.HasActiveDelve(select(4, UnitPosition("player")))
+    return C_DelvesUI and C_DelvesUI.HasActiveDelve and C_DelvesUI.HasActiveDelve(select(4, UnitPosition("player")))
 end
 
 -- Check if currently in a Horrific Vision
